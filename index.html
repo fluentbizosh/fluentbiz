@@ -1,230 +1,172 @@
-       <!DOCTYPE html>
-<html lang="id">
+ <!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FluentBiz - Smart Business Dashboard</title>
-
-  <!-- Font & Style -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-    body { background: #f9f9fb; color: #333; overflow-x: hidden; }
-    header {
-      background: linear-gradient(90deg, #6c63ff, #007bff);
-      color: #fff; padding: 15px 40px;
-      display: flex; justify-content: space-between; align-items: center;
-      position: sticky; top: 0; z-index: 1000;
-    }
-    header h1 { font-weight: 600; font-size: 1.5rem; }
-    header nav a {
-      color: #fff; text-decoration: none; margin: 0 10px; font-weight: 500;
-    }
-    header nav a:hover { text-decoration: underline; }
-
-    section { padding: 60px 20px; text-align: center; }
-
-    .hero {
-      background: white; padding: 80px 20px; border-bottom: 3px solid #eee;
-    }
-    .hero h2 { font-size: 2rem; color: #333; margin-bottom: 10px; }
-    .hero p { color: #555; margin-bottom: 20px; }
-    .hero button {
-      background: #6c63ff; color: white; border: none; padding: 10px 20px;
-      border-radius: 8px; cursor: pointer; font-weight: 500; transition: 0.3s;
-    }
-    .hero button:hover { background: #007bff; }
-
-    .features {
-      background: #f3f5ff;
-      padding: 60px 10%;
-      text-align: left;
-    }
-    .features h2 { text-align: center; margin-bottom: 40px; }
-    .features ul { list-style: none; }
-    .features li {
-      margin: 10px 0; font-size: 1.1rem;
-      display: flex; align-items: center;
-    }
-    .features li span {
-      font-size: 1.5rem; margin-right: 10px; color: #6c63ff;
-    }
-
-    /* Login Section */
-    .login {
-      padding: 80px 20px; background: #fff;
-    }
-    .login input {
-      width: 300px; padding: 10px; margin: 10px; border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    .login button {
-      background: #6c63ff; color: white; border: none;
-      padding: 10px 20px; border-radius: 8px;
-      cursor: pointer; transition: 0.3s;
-    }
-    .login button:hover { background: #007bff; }
-
-    /* Dashboard */
-    .dashboard {
-      display: none;
-      padding: 40px;
-      background: #fff;
-      animation: fadeIn 0.6s ease;
-    }
-    .dash-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transition: 0.3s;
-    }
-    .card:hover { transform: translateY(-5px); }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #6c63ff;
-      color: white;
-      margin-top: 40px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FluentBiz v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  * {margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif;}
+  body {background:#0d0d20; color:#fff;}
+  header {padding:20px; text-align:center; background:linear-gradient(90deg,#5b21b6,#2563eb);}
+  header h1 {font-size:28px; font-weight:600; letter-spacing:1px;}
+  nav {display:flex; justify-content:center; gap:25px; margin-top:10px;}
+  nav button {background:none; border:none; color:#fff; cursor:pointer; font-size:16px; transition:0.3s;}
+  nav button:hover {color:#a78bfa;}
+  section {display:none; padding:40px 20px; min-height:70vh;}
+  .active {display:block;}
+  .container {max-width:800px; margin:0 auto; background:#1a1a2e; padding:30px; border-radius:12px; box-shadow:0 0 20px rgba(91,33,182,0.5);}
+  input, select, button {width:100%; padding:10px; margin-top:10px; border:none; border-radius:6px;}
+  input, select {background:#111122; color:#fff;}
+  button {background:linear-gradient(90deg,#6366f1,#7c3aed); color:#fff; font-weight:600; cursor:pointer; transition:0.3s;}
+  button:hover {opacity:0.9;}
+  footer {position:fixed; bottom:0; left:0; width:100%; background:#111122; display:flex; justify-content:space-around; padding:10px 0;}
+  footer button {background:none; border:none; color:#9ca3af; font-size:14px; cursor:pointer;}
+  footer button:hover {color:#fff;}
+  .chart-container {height:300px; margin-top:20px;}
+</style>
 </head>
-
 <body>
 
-  <header>
-    <h1>💼 FluentBiz</h1>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#features">Fitur</a>
-      <a href="#login">Masuk</a>
-    </nav>
-  </header>
+<header>
+  <h1>FluentBiz</h1>
+  <nav>
+    <button onclick="showSection('home')">Home</button>
+    <button onclick="showSection('login')">Login</button>
+    <button onclick="showSection('integrasi')">Integrasi</button>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+  </nav>
+</header>
 
-  <!-- Home -->
-  <section id="home" class="hero">
-    <h2>Kelola Bisnis Anda Lebih Cerdas & Terhubung</h2>
-    <p>FluentBiz menyatukan data dari berbagai platform seperti Shopee, Tokopedia, Lazada, dan TikTok Shop ke dalam satu dashboard profesional.</p>
-    <button onclick="showLogin()">Mulai Sekarang</button>
-  </section>
+<section id="home" class="active">
+  <div class="container">
+    <h2>Selamat Datang di FluentBiz</h2>
+    <p style="margin-top:10px; line-height:1.6;">
+      FluentBiz adalah software manajemen bisnis global yang dirancang untuk <b>seller online</b>, 
+      <b>perusahaan besar maupun kecil</b>, dan <b>pengembang aplikasi</b>.  
+      Visi kami adalah menciptakan satu sistem terpadu untuk semua sektor bisnis dan digital.  
+      Dengan integrasi ke marketplace seperti Shopee, Tokopedia, Lazada, dan TikTok Shop, serta sistem 
+      analitik berbasis AI, FluentBiz membantu Anda mengelola data, performa, dan pelanggan secara efisien.
+    </p>
+    <p style="margin-top:20px;">✨ <b>Misi:</b> Menyatukan semua bisnis dalam satu platform modern.</p>
+  </div>
+</section>
 
-  <!-- Fitur -->
-  <section id="features" class="features">
-    <h2>✨ Fitur Unggulan FluentBiz</h2>
-    <ul>
-      <li><span>📊</span> Analisis penjualan lintas platform real-time</li>
-      <li><span>🧠</span> Insight cerdas untuk strategi bisnis</li>
-      <li><span>💼</span> Integrasi untuk perusahaan besar & startup</li>
-      <li><span>🚀</span> Cocok untuk seller, pengusaha, dan aplikasi global</li>
-    </ul>
-  </section>
+<section id="login">
+  <div class="container">
+    <h2>Login ke Akun Anda</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="loginUser()">Login</button>
+    <p id="loginStatus" style="margin-top:10px;color:#a78bfa;"></p>
+  </div>
+</section>
 
-  <!-- Login -->
-  <section id="login" class="login">
-    <h2>Masuk ke Akun FluentBiz</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Kata sandi">
-    <br>
-    <button onclick="login()">Masuk</button>
-    <p>Belum punya akun? <a href="#">Daftar di sini</a></p>
-  </section>
+<section id="integrasi">
+  <div class="container">
+    <h2>Integrasi Marketplace / Perusahaan</h2>
+    <select id="platform">
+      <option value="">-- Pilih Platform --</option>
+      <option>Shopee</option>
+      <option>Tokopedia</option>
+      <option>Lazada</option>
+      <option>TikTok Shop</option>
+      <option>Perusahaan Otomotif</option>
+      <option>Perusahaan Elektronik</option>
+      <option>Aplikasi Game</option>
+      <option>Aplikasi Sosial Media</option>
+    </select>
+    <button onclick="connectPlatform()">Hubungkan Akun</button>
+    <p id="connectStatus" style="margin-top:10px;color:#a78bfa;"></p>
+  </div>
+</section>
 
-  <!-- Dashboard -->
-  <section id="dashboard" class="dashboard">
-    <h2>📈 Dashboard Penjualan</h2>
-    <p>Selamat datang di area analitik cerdas FluentBiz</p>
-    <div class="dash-grid">
-      <div class="card">
-        <h3>Grafik Penjualan Mingguan</h3>
-        <canvas id="salesChart"></canvas>
-      </div>
-      <div class="card">
-        <h3>Performa Platform</h3>
-        <canvas id="platformChart"></canvas>
-      </div>
-      <div class="card">
-        <h3>Statistik Umum</h3>
-        <p>✅ 1.203 Transaksi</p>
-        <p>💰 Rp 243.500.000 Total Penjualan</p>
-        <p>📦 97% Pengiriman Selesai</p>
-      </div>
+<section id="dashboard">
+  <div class="container">
+    <h2>Dashboard Utama</h2>
+    <p>Data penjualan, performa, dan traffic Anda akan tampil di sini.</p>
+    <div class="chart-container">
+      <canvas id="salesChart"></canvas>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <p>© 2025 FluentBiz — Solusi Global untuk Bisnis Modern</p>
-  </footer>
+<footer>
+  <button onclick="showSection('home')">🏠 Home</button>
+  <button onclick="showSection('dashboard')">📊 Dashboard</button>
+  <button onclick="showSection('integrasi')">🔗 Integrasi</button>
+  <button onclick="showSection('login')">👤 Login</button>
+</footer>
 
-  <script>
-    const home = document.getElementById('home');
-    const features = document.getElementById('features');
-    const loginSection = document.getElementById('login');
-    const dashboard = document.getElementById('dashboard');
+<script type="module">
+// Firebase connection
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
 
-    function showLogin() {
-      home.style.display = 'none';
-      features.style.display = 'none';
-      loginSection.scrollIntoView({ behavior: 'smooth' });
-    }
+const firebaseConfig = {
+  apiKey: "AIzaSyAH2GlmyCDTF2RfEnMVEsBjfO7flINEcA8",
+  authDomain: "fluentbizapp01.firebaseapp.com",
+  projectId: "fluentbizapp01",
+  storageBucket: "fluentbizapp01.firebasestorage.app",
+  messagingSenderId: "5394474895",
+  appId: "1:5394474895:web:f96a1a1d43425cb0cccdfa",
+  measurementId: "G-VGY05PD58S"
+};
 
-    function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      if (email && password) {
-        alert('Login sukses! Selamat datang di FluentBiz.');
-        home.style.display = 'none';
-        features.style.display = 'none';
-        loginSection.style.display = 'none';
-        dashboard.style.display = 'block';
-        loadCharts();
-      } else {
-        alert('Masukkan email dan password terlebih dahulu.');
-      }
-    }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-    function loadCharts() {
-      const salesCtx = document.getElementById('salesChart');
-      new Chart(salesCtx, {
-        type: 'line',
-        data: {
-          labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-          datasets: [{
-            label: 'Penjualan (Rp)',
-            data: [12, 19, 8, 15, 22, 30, 25],
-            borderColor: '#6c63ff',
-            fill: false,
-            tension: 0.4
-          }]
-        },
-        options: { responsive: true }
-      });
+window.loginUser = async function() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const status = document.getElementById("loginStatus");
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    status.innerText = "Login berhasil! Silakan integrasi akun Anda.";
+    showSection('integrasi');
+  } catch (err) {
+    status.innerText = "Gagal login: " + err.message;
+  }
+};
 
-      const platformCtx = document.getElementById('platformChart');
-      new Chart(platformCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Shopee', 'Tokopedia', 'Lazada', 'TikTok'],
-          datasets: [{
-            data: [40, 25, 20, 15],
-            backgroundColor: ['#ff7f50', '#28a745', '#007bff', '#ff0050']
-          }]
-        }
-      });
-    }
-  </script>
+window.connectPlatform = function() {
+  const platform = document.getElementById("platform").value;
+  const status = document.getElementById("connectStatus");
+  if (platform === "") {
+    status.innerText = "Silakan pilih platform terlebih dahulu.";
+    return;
+  }
+  status.innerText = `✅ ${platform} terhubung (simulasi).`;
+  setTimeout(() => showSection('dashboard'), 1500);
+};
 
+// Chart.js example
+const ctx = document.getElementById('salesChart');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['Sen','Sel','Rab','Kam','Jum','Sab','Min'],
+    datasets: [{
+      label: 'Total Penjualan (simulasi)',
+      data: [12, 19, 8, 17, 22, 15, 25],
+      borderColor: '#7c3aed',
+      backgroundColor: 'rgba(124,58,237,0.3)',
+      tension: 0.3,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: { y: { beginAtZero: true, grid: {color:'rgba(255,255,255,0.1)'}} },
+    plugins: { legend: { labels:{color:'#fff'} } }
+  }
+});
+
+window.showSection = function(id) {
+  document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+};
+</script>
 </body>
 </html>
